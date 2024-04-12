@@ -48,6 +48,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
             // 최종 결과 반환
             return result;
         });
+        await browser.close();
 
         return NextResponse.json({ newsData });
     } catch (error) {
