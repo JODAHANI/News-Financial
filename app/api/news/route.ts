@@ -21,18 +21,15 @@ export async function GET(req: NextRequest, res: NextResponse) {
         });
 
         await new Promise((resolve) => {
-            setTimeout(resolve, 100); // 10초 대기
+            setTimeout(resolve, 100);
         });
 
         const newsData = await page.evaluate(() => {
-            // .news_date-cell 및 .news_link-cell 요소의 쿼리 선택
             const timeElements = document.querySelectorAll(".news_date-cell");
             const linkElements = document.querySelectorAll(".news_link-cell a");
 
-            // 결과를 저장할 배열 초기화
             const result = [];
 
-            // 시간과 링크 요소의 길이가 같다고 가정하고 반복
             for (let i = 0; i < timeElements.length; i++) {
                 const timeElement = timeElements[i] as HTMLElement;
                 const linkElement = linkElements[i] as HTMLAnchorElement;
@@ -41,11 +38,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
                 const href = linkElement.href;
                 const text = linkElement.textContent?.trim() ?? "";
 
-                // 시간 및 링크 데이터 병합
                 result.push({ time, href, text });
             }
 
-            // 최종 결과 반환
             return result;
         });
         await browser.close();
